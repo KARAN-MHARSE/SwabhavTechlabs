@@ -1,0 +1,7 @@
+package com.aurionpro.jdbc.exceptions;
+
+public class DatabaseConnectionNotFoundException extends Exception {
+public DatabaseConnectionNotFoundException() {
+	super("Database not connected");
+}
+}

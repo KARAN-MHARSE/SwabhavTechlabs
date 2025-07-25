@@ -1,0 +1,32 @@
+package com.aurionpro.foodify.utils;
+
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.util.List;
+
+import com.aurionpro.foodify.models.FoodItem;
+
+public class DataStorageManagement {
+	
+	public static void saveFoodItemsToLocal(List<FoodItem> items){
+		FileOutputStream fileOutputStream;
+		ObjectOutputStream objectOutputStream;
+		try {
+			fileOutputStream = new FileOutputStream("D:\\SwabhavTraining\\Mini project\\Foodify\\src\\com\\aurionpro\\foodify\\file.txt");
+			objectOutputStream = new ObjectOutputStream(fileOutputStream);
+			
+			for(FoodItem item : items) {
+				objectOutputStream.writeObject(item);
+			}
+			
+		} catch (Exception e) {
+			System.out.println("Something went wrong in saveFoodItemsToLocal");
+		}
+		finally {
+			objectOutputStream.close();
+			fileOutputStream.close();
+		}
+		
+	}
+
+}

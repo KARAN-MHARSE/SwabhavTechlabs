@@ -1,0 +1,5 @@
+package com.aurionpro.jdbc.exceptions;
+
+public class StudentNotFoundException {
+
+}

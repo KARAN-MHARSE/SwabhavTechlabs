@@ -1,0 +1,5 @@
+package com.aurionpro.jdbc.test;
+
+public class DatabaseTest {
+
+}

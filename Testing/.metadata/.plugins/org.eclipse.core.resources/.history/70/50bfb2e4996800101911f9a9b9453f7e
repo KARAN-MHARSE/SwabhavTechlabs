@@ -1,0 +1,163 @@
+package com.aurionpro.jdbc.services;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+import com.aurionpro.jdbc.database.Database;
+import com.aurionpro.jdbc.exceptions.DatabaseConnectionNotFoundException;
+import com.aurionpro.jdbc.exceptions.StudentNotFoundException;
+
+public class StudentService {
+	Connection connection;
+
+	public StudentService(Connection connection) {
+		if (connection == null)
+			System.out.println("Not found in studentService");
+		this.connection = connection;
+		connection = Database.getConnection();
+
+	}
+
+	public void printAllStudentsData()  {
+		
+		if (connection == null)
+			throw new DatabaseConnectionNotFoundException();
+
+		Statement statement;
+		try {
+			statement = connection.createStatement();
+			
+			ResultSet studentList = statement.executeQuery("select * from student;");
+			
+			if (studentList == null)
+				throw new StudentNotFoundException("Students not found");
+
+			while (studentList.next()) {
+				System.out.println("Roll Number: " + studentList.getInt("roll_number") + "\tStudent Name: "
+						+ studentList.getString("name") + "\tAge: " + studentList.getInt("age") + "\tPercentage: "
+						+ studentList.getDouble("percentage"));
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public ResultSet getStudentById(Scanner scanner) {
+		System.out.println("Enter the student id");
+		int studentId = scanner.nextInt();
+		scanner.nextLine();
+		
+		try {
+			Statement statement = connection.createStatement();
+			String query = "select * from student where id = "+studentId;
+			
+			ResultSet studentDetails = statement.executeQuery(query);
+			if(studentDetails.next()) return studentDetails;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		throw new StudentNotFoundException();
+		
+	}
+
+	public ResultSet getTopperStudent() {
+		try {
+			Statement statement = connection.createStatement();
+			String query = "select * from student where percentage = (select max(percentage) from student)";
+			
+			ResultSet studentDetails = statement.executeQuery(query);
+			if(studentDetails.next()) return studentDetails;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		throw new StudentNotFoundException();
+	}
+
+	/**
+	 * @param scanner
+	 * @throws SQLException 
+	 */
+	public void addNewStudent(Scanner scanner) throws SQLException {
+		System.out.println("Enter student roll number:");
+		int rollnNumber = scanner.nextInt();
+		scanner.nextLine();
+		
+		System.out.println("Enter student name: ");
+		String name = scanner.nextLine();
+		
+		System.out.println("Enter student age: ");
+		int age= scanner.nextInt();
+		scanner.nextLine();
+		
+		System.out.println("Enter student percentage ");
+		double percentage = scanner.nextDouble();
+		scanner.nextLine();
+		
+		String query = "insert into student (roll_number,name,age,percentage) values (?,?,?,?)";		
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setInt(1,rollnNumber);
+		statement.setString(2,name);
+		statement.setInt(3,age);
+		statement.setDouble(4, percentage);
+		
+		int rowInserted = statement.executeUpdate();		
+		if(rowInserted > 0) {
+			System.out.println("Student details successfully inserted");
+			return;
+		}
+		
+		System.out.println("Something went wrong");
+	}
+
+	public void crudOperation() {
+		try {
+//		Select students whose age is greater than ?
+			String sql1 = "select * from student where age >= ?";
+			PreparedStatement statement1 = connection.prepareStatement(sql1);
+			statement1.setInt(1, 20);
+			ResultSet set= statement1.executeQuery();
+			while(set.next())
+				System.out.println(set.getString("name"));
+			
+//			update query
+			String sql2 = "update student set age= ? where id=?";
+			PreparedStatement statement2 = connection.prepareStatement(sql2);
+			statement2.setInt(1, 30);
+			statement2.setInt(2, 2);
+			
+			int rows = statement2.executeUpdate();
+			if(rows >0) System.out.println("Updated");
+			else System.out.println("Error");
+			
+//			Delete query
+			String sql3  = "Delete from student where id=?";
+			PreparedStatement statement3 = connection.prepareStatement(sql3);
+			statement3.setInt(1, 2);
+			
+			int rows = statement3.executeUpdate();
+			if(rows >0) System.out.println("deleted");
+			else System.out.println("Error");
+			
+		} 
+		catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+		catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		
+	}
+
+}

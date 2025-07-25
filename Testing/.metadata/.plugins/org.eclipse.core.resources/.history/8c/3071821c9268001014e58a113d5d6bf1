@@ -1,0 +1,82 @@
+package com.aurionpro.jdbc.test;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+import com.aurionpro.jdbc.database.Database;
+import com.aurionpro.jdbc.services.StudentService;
+
+public class DatabaseTest {
+
+	public static void main(String args[]) {
+		Scanner scanner = new Scanner(System.in);
+		Connection connection = Database.getConnection();
+
+		if (connection == null) {
+			System.out.println("Something went wrong");
+		}
+
+		showMenu(scanner, connection);
+	}
+
+	private static void showMenu(Scanner scanner, Connection connection) {
+		StudentService studentService = new StudentService(connection);
+
+		boolean isContinue = true;
+		while (isContinue) {
+			try {
+				System.out.println("********************************************************************");
+				System.out.println(
+						"Enter "
+						+ "\n1. See all students list "
+						+ "\n2. Get student by id "
+						+ "\n3. Get topper student "
+						+ "\n10.Exit");
+				int choice = scanner.nextInt();
+				scanner.nextLine();
+
+				switch (choice) {
+				case 1:
+					System.out.println("List of students:");
+					studentService.printAllStudentsData();
+					break;
+				case 2:
+					System.out.println("Details of student:");
+					ResultSet studentDetail = studentService.getStudentById(scanner);
+					printStudentDetail(studentDetail);
+					break;
+				case 3:
+					System.out.println("Details of topper student:");
+					ResultSet topperStudent = studentService.getTopperStudent();
+					printStudentDetail(topperStudent);
+					break;
+
+				case 10:
+					isContinue = false;
+					System.out.println("Thank you!");
+					break;
+				default:
+					System.out.println("Enter right choice code");
+					break;
+				}
+			} catch (NumberFormatException e) {
+				System.err.println(e.getMessage());
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+			}
+		}
+
+	}
+
+	private static void printStudentDetail(ResultSet studentDetail) throws SQLException {
+		System.out.println("Roll Number: " + studentDetail.getInt("roll_number") + "\tStudent Name: "
+				+ studentDetail.getString("name") + "\tAge: " + studentDetail.getInt("age")
+				+ "\tPercentage: " + studentDetail.getDouble("percentage"));
+		
+	}
+}

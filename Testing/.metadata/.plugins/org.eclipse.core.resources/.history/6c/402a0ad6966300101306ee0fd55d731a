@@ -1,0 +1,60 @@
+package com.aurionpro.thread.book;
+
+import java.util.stream.Collectors;
+
+class NewThread implements Runnable {
+	String name;
+	Thread t;
+
+	public NewThread(String threadName) {
+		name = threadName;
+		t = new Thread(this, name);
+		System.out.println("New thread: " + t);
+		t.start();
+	}
+
+	@Override
+	public void run() {
+		try {
+			for (int i = 5; i > 0; i--) {
+				System.out.println(name + ": " + i);
+				Thread.sleep(1000);
+			}
+		} catch (InterruptedException e) {
+			System.out.println(name + " interrupted.");
+		}
+		System.out.println(name + " exiting.");
+	}
+
+}
+
+public class JoinAndSleepMethod {
+	public static void main(String[] args) {
+		NewThread ob1 = new NewThread("One");
+		NewThread ob2 = new NewThread("Two");
+		NewThread ob3 = new NewThread("Three");
+		
+		System.out.println("Thread one is Alive:"+ ob1.t.isAlive());
+		System.out.println("Thread two is Alive:"+ ob2.t.isAlive());
+		System.out.println("Thread three is Alive:"+ ob3.t.isAlive());
+		
+		// wait for threads to finish
+		try {
+			ob1.t.join();
+			ob2.t.join();
+			ob3.t.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println("Thread one is Alive:"+ ob1.t.isAlive());
+		System.out.println("Thread two is Alive:"+ ob2.t.isAlive());
+		System.out.println("Thread three is Alive:"+ ob3.t.isAlive());
+		
+		 System.out.println("Main thread exiting.");
+
+		
+	}
+
+}

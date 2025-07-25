@@ -1,0 +1,12 @@
+package com.aurionpro.jdbc.exceptions;
+
+public class StudentNotFoundException extends RuntimeException {
+	public StudentNotFoundException() {
+		super("Student not found");
+	}
+	
+	public StudentNotFoundException(String messsage) {
+		super(messsage);
+	}
+
+}

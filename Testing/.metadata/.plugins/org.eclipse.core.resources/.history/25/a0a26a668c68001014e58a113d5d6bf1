@@ -1,0 +1,25 @@
+package com.aurionpro.jdbc.test;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.aurionpro.jdbc.database.Database;
+import com.aurionpro.jdbc.services.StudentService;
+
+public class DatabaseTest {
+
+	public static void main(String args[]) {
+		Connection connection = Database.getConnection();
+		
+		
+		
+		if(connection == null) {
+			System.out.println("Something went wrong");
+		}
+		
+		StudentService studentService = new StudentService(connection);
+//		studentService.printAllStudentsData();
+	}
+}

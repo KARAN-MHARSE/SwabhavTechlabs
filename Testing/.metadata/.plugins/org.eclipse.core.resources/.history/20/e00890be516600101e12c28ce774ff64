@@ -1,0 +1,11 @@
+package com.aurionpro.foodify.utils;
+
+import java.util.List;
+
+import com.aurionpro.foodify.models.FoodItem;
+
+public class DataStorageManagement {
+	
+	List<FoodItem> saveFoodItemsToLocal()
+
+}

@@ -1,0 +1,72 @@
+package com.aurionpro.jdbc.services;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+import com.aurionpro.jdbc.database.Database;
+import com.aurionpro.jdbc.exceptions.DatabaseConnectionNotFoundException;
+import com.aurionpro.jdbc.exceptions.StudentNotFoundException;
+
+public class StudentService {
+	Connection connection;
+
+	public StudentService(Connection connection) {
+		if (connection == null)
+			System.out.println("Not found in studentService");
+		this.connection = connection;
+		connection = Database.getConnection();
+
+	}
+
+	public void printAllStudentsData()  {
+		
+		if (connection == null)
+			throw new DatabaseConnectionNotFoundException();
+
+		Statement statement;
+		try {
+			statement = connection.createStatement();
+			
+			ResultSet studentList = statement.executeQuery("select * from student;");
+			
+			if (studentList == null)
+				throw new StudentNotFoundException("Students not found");
+
+			while (studentList.next()) {
+				System.out.println("Roll Number: " + studentList.getInt("roll_number") + "\tStudent Name: "
+						+ studentList.getString("name") + "\tAge: " + studentList.getInt("age") + "\tPercentage: "
+						+ studentList.getDouble("percentage"));
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public ResultSet getStudentById(Scanner scanner) {
+		System.out.println("Enter the student id");
+		int studentId = scanner.nextInt();
+		scanner.nextLine();
+		
+		try {
+			Statement statement = connection.createStatement();
+			String query = "select * from student where id = "+studentId;
+			
+			ResultSet studentDetails = statement.executeQuery(query);
+			if(studentDetails.next()) return studentDetails;
+			throw new StudentNotFoundException();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+}

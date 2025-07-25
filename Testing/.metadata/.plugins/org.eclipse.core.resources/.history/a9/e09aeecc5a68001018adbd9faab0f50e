@@ -1,0 +1,21 @@
+package com.aurionpro.jdbc.database;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class Database {
+	
+	public void connect() {
+		try {
+			Class.forName("org.postgresql.Driver");
+			
+			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5433/College", "postgres","Karan@06");
+			System.out.println("Connected");
+					
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e);
+		}
+	}
+
+}

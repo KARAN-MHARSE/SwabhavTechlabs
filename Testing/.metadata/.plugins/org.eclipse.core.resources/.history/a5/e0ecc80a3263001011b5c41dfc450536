@@ -1,0 +1,68 @@
+package com.aurionpro.streams.test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+
+import com.aurionpro.streams.model.Employee;
+import com.aurionpro.streams.model.EmployeeAccount;
+
+public class EmployeeTest2 {
+	public static void main(String args[]) {
+		List<Employee> employees = new ArrayList<>(Arrays.asList(
+			    new Employee("Prathamesh Patil", 50000, "HR"),
+			    new Employee("Jayesh Rawat", 60000, "Finance"),
+			    new Employee("Akash Mharse", 20000, "Tech"),
+			    new Employee("Satej Patwa", 90000, "Tech"),
+			    new Employee("Shubham Chavan", 10000, "HR"),
+			    new Employee("Pravin Chaudhari", 75000, "Marketing"),
+			    new Employee("Akash Varma", 67000, "Finance"),
+			    new Employee("Jatin Sharma", 40000, "Sales"),
+			    new Employee("Vishwajeet Dube", 78000, "Tech"),
+			    new Employee("Prathamesh Pawar", 40000, "HR")
+			));
+		
+//		System.out.println("Sorted employees");
+//		employees.stream()
+//			.sorted(Comparator.comparing(Employee::getSalary).thenComparing(Employee::getName))
+//			.forEach(System.out::println);
+		
+		System.out.println("Find highest paid employee in each dept");
+		employees.stream()
+			.sorted(Comparator.comparing(Employee::getDept).thenComparing(Employee::getSalary).reversed())
+			.collect(Collectors.groupingBy(Employee::getDept))
+			.forEach((dept,employee)->{
+				System.out.println(employee.get(0));
+				
+			});
+		
+//		Print names in list of starting charactes list
+		List<String>names = Arrays.asList("Apple","Banana","Ajhj","Cat","biui","ghdg","chgch");
+		names.stream()
+			.collect(Collectors.groupingBy((name)-> name.charAt(0)))
+			.forEach((ch,nameList)-> System.out.println(ch+":"+nameList));
+		
+		
+//		create map with key character and size of names which start with that char
+		Map<Character,Long> countMap=names.stream()
+			.collect(Collectors.groupingBy((name)->name.charAt(0),Collectors.counting()));
+		
+		countMap.entrySet().stream().forEach(System.out::println);
+		
+//		Print uniques words from list of strings
+		List<String> phrases = Arrays.asList("Hello world","hello java","Strean Api");
+		phrases.stream()
+			.flatMap(phrase->Arrays.stream(phrase.split(" ")))
+			.distinct()
+			.forEach(System.out::println);
+		
+		
+//		
+	}
+
+}

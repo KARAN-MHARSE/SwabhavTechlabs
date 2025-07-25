@@ -1,0 +1,71 @@
+package com.aurionpro.jdbc.model;
+
+public class Student {
+	private int id;
+	private int rollNumber;
+	private String name;
+	private int age;
+	private double percentage;
+	private static int count = 301;
+	
+	public Student( String name, int age, double percentage) {
+		super();
+		this.rollNumber = count;
+		count++;
+		this.name = name;
+		this.age = age;
+		this.percentage = percentage;
+	}
+
+	public int getId() {
+		return id;
+	}
+	public int getRollNumber() {
+		return rollNumber;
+//		this.rollNumber = rollNumber;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public double getPercentage() {
+		return percentage;
+	}
+
+	public void setPercentage(double percentage) {
+		this.percentage = percentage;
+	}
+
+	public static int getCount() {
+		return count;
+	}
+
+	public static void setCount(int count) {
+		Student.count = count;
+	}
+
+	@Override
+	public String toString() {
+		return "Student [id=" + id + ", rollNumber=" + rollNumber + ", name=" + name + ", age=" + age + ", percentage="
+				+ percentage + "]";
+	}
+	
+		
+		
+	}
+	
+
+

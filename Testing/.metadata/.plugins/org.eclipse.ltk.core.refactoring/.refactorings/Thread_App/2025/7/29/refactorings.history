@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move element &apos;JoinAndSleepMethod.java&apos; to &apos;Thread_App/src/com.aurionpro.thread.book&apos;&#x0D;&#x0A;- Original project: &apos;Thread_App&apos;&#x0D;&#x0A;- Destination element: &apos;Thread_App/src/com.aurionpro.thread.book&apos;&#x0D;&#x0A;- Original element: &apos;com.aurionpro.thread.JoinAndSleepMethod.java&apos;&#x0D;&#x0A;- Update references to refactored element" description="Move compilation unit" destination="/src&lt;com.aurionpro.thread.book" element1="/src&lt;com.aurionpro.thread{JoinAndSleepMethod.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" patterns="*" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1752775993448" units="1" version="1.0"/>
+</session>

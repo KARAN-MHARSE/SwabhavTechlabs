@@ -1,0 +1,11 @@
+package com.aurionpro.streams.test;
+
+import java.util.List;
+
+public class LearnCollectorsClass {
+	public static void main(String args[]) {
+
+		List<String> names = List.of("Alice", "Bob", "Alice");
+
+	}
+}

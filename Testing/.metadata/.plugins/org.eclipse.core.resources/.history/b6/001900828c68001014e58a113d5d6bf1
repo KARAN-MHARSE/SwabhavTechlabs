@@ -1,0 +1,52 @@
+package com.aurionpro.jdbc.services;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.aurionpro.jdbc.database.Database;
+import com.aurionpro.jdbc.exceptions.DatabaseConnectionNotFoundException;
+import com.aurionpro.jdbc.exceptions.StudentNotFoundException;
+
+public class StudentService {
+	Connection connection;
+
+	public StudentService(Connection connection) {
+		if (connection == null)
+			System.out.println("Not found in studentService");
+		this.connection = connection;
+		connection = Database.getConnection();
+
+	}
+
+	public void printAllStudentsData() throws DatabaseConnectionNotFoundException, SQLException {
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet set = statement.executeQuery("select * from student;");
+			set.next();
+			System.out.println(set.getString("name"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+//		if (connection == null)
+//			throw new DatabaseConnectionNotFoundException();
+//
+//		Statement statement = connection.createStatement();
+//
+//		ResultSet studentList = statement.executeQuery("select * from student;");
+//
+//		if (studentList == null)
+//			throw new StudentNotFoundException("Students not found");
+//
+//		while (studentList.next()) {
+//			System.out.println("Roll Number: " + studentList.getInt("roll_number") + "Student Name: "
+//					+ studentList.getString("name") + "Age: " + studentList.getInt("age") + "Percentage: "
+//					+ studentList.getDouble("percentage"));
+//		}
+
+	}
+
+}

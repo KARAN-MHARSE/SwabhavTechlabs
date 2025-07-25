@@ -1,0 +1,46 @@
+package com.aurionpro.thread.book;
+
+class CallMe {
+
+	synchronized void call(String msg) {
+		System.out.print("[" + msg);
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("]");
+	}
+}
+
+class Caller implements Runnable{
+	Thread t;
+	CallMe callMe;
+	String msg;
+	
+
+	public Caller(CallMe callMe, String msg) {
+		this.msg = msg;
+		t= new Thread(this);
+		this.callMe = callMe;
+		t.start();
+	}
+	
+	@Override
+	public void run() {
+		callMe.call(msg);
+		
+	}
+	
+}
+
+public class SyncronizedKeyword {
+	public static void main(String args[]) {
+		CallMe callMe = new CallMe();
+		Caller c1= new Caller(callMe,"Bye");
+		Caller c2= new Caller(callMe,"Hii");
+		Caller c3= new Caller(callMe,"Bywfefee");
+		
+	}
+}

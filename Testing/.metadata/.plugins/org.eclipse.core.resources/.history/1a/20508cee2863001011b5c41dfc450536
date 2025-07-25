@@ -1,0 +1,7 @@
+package com.aurionpro.streams.test;
+
+public class LearnCollectorsClass {
+	public static void main(String args[]) {
+		System.out.println("Hello");
+	}
+}

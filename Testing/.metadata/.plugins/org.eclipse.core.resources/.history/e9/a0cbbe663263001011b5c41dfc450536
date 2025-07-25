@@ -1,0 +1,5 @@
+package com.aurionpro.streams.model;
+
+public class Product {
+
+}

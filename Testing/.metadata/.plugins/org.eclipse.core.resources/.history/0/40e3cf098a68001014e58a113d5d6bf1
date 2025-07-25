@@ -1,0 +1,30 @@
+package com.aurionpro.jdbc.test;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import com.aurionpro.jdbc.database.Database;
+import com.aurionpro.jdbc.exceptions.DatabaseConnectionNotFoundException;
+import com.aurionpro.jdbc.exceptions.StudentNotFoundException;
+import com.aurionpro.jdbc.services.StudentService;
+
+public class DatabaseTest {
+
+	public static void main(String args[]) {
+		Connection connection = Database.getConnection();
+		
+		StudentService studentService = new StudentService(connection);
+		try {
+			studentService.printAllStudentsData();
+		} catch (StudentNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DatabaseConnectionNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
