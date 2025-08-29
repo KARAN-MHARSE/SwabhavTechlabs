@@ -36,7 +36,9 @@ public class DatabaseTest {
 						+ "\n3. Get student by id "
 						+ "\n4. Get topper student "
 						+ "\n5. Update student percentage "
-						+ "\n6. Delete Student by id"
+						+ "\n6. Delete Student by id "
+						+ "\n7. Add new student with profile "
+						+ "\n8. Print Meta data"
 						+ "\n9. CRUD "
 						+ "\n10.Exit");
 				int choice = scanner.nextInt();
@@ -65,6 +67,12 @@ public class DatabaseTest {
 					break;
 				case 6:
 					studentService.deleteStudentById(scanner);
+					break;
+				case 7:
+					studentService.addNewStudentAndProfile(scanner);
+					break;
+				case 8:
+					studentService.printDataFromMetadata();
 					break;
 				case 9:
 					studentService.crudOperation();
