@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head >
+<body style="background-color:#212121; height:100vh; display:flex; align-items:center;justify-content:center">
+	
+	
+	<div id="container" style="background-color:white; padding:50px; border-radius:20px;">
+	<h1 style="">Karan's App</h1>
+	<form action="RegisterController" method="post">
+		<div style="display: flex; gap: 20px;align-items:center">
+			<p >Name:</p>
+			<input type="text" name="name" placeholder="Enter name" style="border-radius:10px;height:20px;padding: 3px 5px">
+		</div>
+		<div style="display: flex; gap: 20px;align-items:center">
+			<p>Address:</p>
+			<input type="text" name="address" placeholder="Enter adress" style="border-radius:10px;height:20px;padding: 3px 5px">
+		</div>
+
+		<div style="display: flex; gap: 20px; align-items:center;">
+			<p>Gender</p>
+			<div >
+				<input type="radio" name="gender" placeholder="Enter name" value="Male"> <label>Male</label>
+				<input type="radio" name="gender" placeholder="Enter name" value="Female"> <label>Female</label>
+				<input type="radio" name="gender" placeholder="Enter name" value="Other"> <label>Other</label>
+			</div>
+		</div>
+		<div style="display: flex; gap: 35px;align-items:center">
+			<label for="city">City: </label>
+			 <select name="city" id="city">
+					<option value="Mumbai">Mumbai</option>
+					<option value="Noida">Noida</option>
+					<option value="Thane">Thane</option>
+			</select>
+		</div>
+		<div style="display: flex; gap: 20px;align-items:center">
+			<p>Subject:</p>
+			<input type="text" name="subject" placeholder="Enter subject" style="border-radius:10px;height:20px;padding: 3px 5px">
+		</div>
+		<div style="display: flex; gap: 20px;align-items:center">
+			<p>Username:</p>
+			<input type="text" name="username" placeholder="Enter username" style="border-radius:10px;height:20px;padding: 3px 5px">
+		</div>
+		<div style="display: flex; gap: 20px;align-items:center">
+			<p>Password:</p>
+			<input type="password" name="password" placeholder="Enter password" style="border-radius:10px;height:20px;padding: 3px 5px">
+		</div>
+		<div style="display: flex;align-item:center;justify-content:center; margin-top:15px;">
+		<button style="width:100%;padding: 5px ; border-radius:5px; background-color: teal ; color:white; font-weight: bold">Register</button>
+		<a href="allstudent.html">See all students</a>
+		</div>
+	</form>
+	</div>
+</body>
+</html>

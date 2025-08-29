@@ -1,0 +1,28 @@
+Head First
+
+Great software in 3 steps
+1) Make sure your software does what the customer wants it to do
+2) Apply basic OOPs principles to add flexibility.
+3) Strive for a maintainable, reusable design. (Apply DP)
+
+
+Issues And Solutions
+1) Hard-Coded Inventory
+Problem: Inventory search logic is directly written in main()-> no reuse, hard to update
+Solution: Create an Inventory class to store and manage guitars -> centralize add/search/remove logic
+
+2) Case Sensitive in search
+Problem: Searching "fender" vs "Fender" returned null but they both are same 
+Solution: Use equalsIgnoreCase()-> allows matching regardless of text case
+
+3) Rigid Search (Exact Match)
+Problem: User had to provide all details -> too Strict
+Solution: Only compares fields that are not null and not blank in the search request
+
+4) String-based comparison for fixed values
+Problem: The User may provide typo values in the search
+Solution: Use an Enum for properties
+
+5) Code reusability issue
+Problem: If a new Guitar is added with the same specs as the previous guitar, then the code is repeated
+Solution: Introduce GuitarSpec class to hold specs 

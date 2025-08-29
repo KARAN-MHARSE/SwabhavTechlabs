@@ -1,5 +1,0 @@
-package com.aurionpro.jdbc.database;
-
-public class DatabaseConnectionNotFoundException {
-
-}
