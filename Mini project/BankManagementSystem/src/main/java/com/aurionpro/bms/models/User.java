@@ -18,6 +18,7 @@ public class User {
 	private Role role;
 	private List<Document> documents;
 	private String password;
+	private boolean isActive;
 	private Timestamp timestamp;
 
 	public User() {
@@ -87,6 +88,14 @@ public class User {
 	}
 	
 	
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
 
 	public String getPanNo() {
 		return panNo;

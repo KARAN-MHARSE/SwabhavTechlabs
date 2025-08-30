@@ -79,7 +79,7 @@ if (account != null) {
 								<tr>
 									<th>Active</th>
 									<td><span class="badge bg-success"> <c:choose>
-												<c:when test="${userAccount.email == true }">Yes</c:when>
+												<c:when test="${userAccount.active}">Yes</c:when>
 												<c:otherwise>No</c:otherwise>
 											</c:choose>
 

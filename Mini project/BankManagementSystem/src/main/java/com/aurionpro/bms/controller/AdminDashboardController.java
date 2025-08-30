@@ -86,6 +86,7 @@ public class AdminDashboardController extends HttpServlet {
 			}
 			request.getRequestDispatcher("/WEB-INF/views/admin/AdminDashboard.jsp").forward(request, response);
 		} catch (Exception e) {
+			e.printStackTrace();
 			request.setAttribute("errorMessage", "Something went wrong: " + e.getMessage());
 			request.getRequestDispatcher("/WEB-INF/views/Error.jsp").forward(request, response);
 

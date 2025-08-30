@@ -61,6 +61,8 @@ public class ResultSetMapperUtil {
 				user.setMobile(result.getLong("mobile"));
 				user.setAdharNo(result.getLong("adharNo"));
 				user.setPanNo(result.getString("panNo"));
+				user.setActive(result.getBoolean("isactive"));
+				
 				
 				
 				Account account = new Account();

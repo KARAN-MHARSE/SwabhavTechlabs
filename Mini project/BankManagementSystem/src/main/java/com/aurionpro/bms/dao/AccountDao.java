@@ -151,7 +151,7 @@ public class AccountDao {
 	public List<UserAccountDTO> getAllUserAccounts() {
 		Map<Integer, UserAccountDTO> map = new HashMap<>();
 
-		String sql = "select u.id as userId,u.name as userName,u.address,u.email,u.mobile,u.adhar_no as adharNo,u.pan_no as panNo,u.role,a.id as accountId,"
+		String sql = "select u.id as userId,u.name as userName,u.address,u.email,u.mobile,u.adhar_no as adharNo,u.pan_no as panNo,u.role,u.isactive,a.id as accountId,"
 				+ "	a.account_number,a.type as accountType,a.balance,a.account_status,a.created_at as accountCreatedAt,d.doc_file,d.doc_name,d.doc_type	"
 				+ "from " + "users u " + "join account a on u.id = a.user_id "
 				+ "left join document d on u.id = d.user_id ";
@@ -252,7 +252,7 @@ public class AccountDao {
 	public List<UserAccountDTO> getAllPendingAccounts() {
 		Map<Integer, UserAccountDTO> map = new HashMap<>();
 
-		String sql = "select u.id as userId,u.name as userName,u.address,u.email,u.mobile,u.adhar_no as adharNo,u.pan_no as panNo,u.role,a.id as accountId,"
+		String sql = "select u.id as userId,u.name as userName,u.address,u.email,u.mobile,u.adhar_no as adharNo,u.pan_no as panNo,u.role,u.isactive,a.id as accountId,"
 				+ "	a.account_number,a.type as accountType,a.balance,a.account_status,a.created_at as accountCreatedAt,d.doc_file,d.doc_name,d.doc_type	"
 				+ "from " + "users u " + "join account a on u.id = a.user_id "
 				+ "left join document d on u.id = d.user_id "
@@ -272,7 +272,7 @@ public class AccountDao {
 
 	public UserAccountDTO getUserAccountDetailsByUserId(int userId) {
 		String sql = "select \r\n"
-				+ "	u.id as userId,u.name as userName,u.address,u.email,u.mobile,u.adhar_no as adharNo,u.pan_no as panNo,u.role,\r\n"
+				+ "	u.id as userId,u.name as userName,u.address,u.email,u.mobile,u.adhar_no as adharNo,u.pan_no as panNo,u.role,u.isactive,\r\n"
 				+ "	a.id as accountId,a.account_number,a.type as accountType,a.balance,a.account_status,a.created_at as accountCreatedAt,\r\n"
 				+ "	d.doc_file,d.doc_name,d.doc_type\r\n" + "from \r\n" + "users u \r\n"
 				+ "join account a on u.id = a.user_id \r\n" + "left join document d on u.id = d.user_id\r\n"
@@ -296,7 +296,7 @@ public class AccountDao {
 
 	public UserAccountDTO getUserAccountDetailsByAccountNumber(String accountNumber) {
 		String sql = "select \r\n"
-				+ "	u.id as userId,u.name as userName,u.address,u.email,u.mobile,u.adhar_no as adharNo,u.pan_no as panNo,u.role,\r\n"
+				+ "	u.id as userId,u.name as userName,u.address,u.email,u.mobile,u.adhar_no as adharNo,u.pan_no as panNo,u.role,u.isactive,\r\n"
 				+ "	a.id as accountId,a.account_number,a.type as accountType,a.balance,a.account_status,a.created_at as accountCreatedAt,\r\n"
 				+ "	d.doc_file,d.doc_name,d.doc_type\r\n" + "from \r\n" + "users u \r\n"
 				+ "join account a on u.id = a.user_id \r\n" + "left join document d on u.id = d.user_id\r\n"
@@ -338,6 +338,20 @@ public class AccountDao {
 				stats.setTotalFailedTransaction(set.getInt("total_failed_transactions"));
 			}
 			return stats;
+		}
+	}
+
+	public boolean blockAccount(String accountNumber,String status) {
+		String query = "update account set account_status = ? where account_number = ?";
+		try(PreparedStatement statement = connection.prepareStatement(query)){
+			statement.setString(1, status);
+			statement.setString(2, accountNumber);
+			
+			int updatedRows = statement.executeUpdate();
+			return updatedRows >0; 
+		}
+		catch (SQLException e) {
+			throw new DatabaseException("Something went wrong while block the account");
 		}
 	}
 

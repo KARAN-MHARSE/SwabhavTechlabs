@@ -47,8 +47,16 @@ public class AccountService {
 	public UserAccountDTO getUserAccountDetailsByUserId(int userId) {
 		return accountDao.getUserAccountDetailsByUserId(userId);
 	}
+	public boolean blockAccount(String accountNumber,String status) {
+		if(accountNumber == null || accountNumber.isEmpty()) {
+			throw new InputValidatorException("Invalid account number");
+		}
+		return accountDao.blockAccount( accountNumber, status);
+	}
 	
 	public Stats getStats() throws SQLException {
 		return accountDao.getStats();
 	}
+	
+	
 }

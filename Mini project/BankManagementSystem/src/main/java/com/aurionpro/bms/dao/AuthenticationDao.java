@@ -25,7 +25,7 @@ public class AuthenticationDao {
 	
 	public Optional<User> login(String email,String password) {
 		
-		String sql = "select id,name,address,mobile,adhar_no,role from users where email=? and password=?;";
+		String sql = "select id,name,address,mobile,adhar_no,role from users where email=? and password=? and isActive=true;";
 		
 		try(PreparedStatement statement = connection.prepareStatement(sql)){
 			statement.setString(1, email);

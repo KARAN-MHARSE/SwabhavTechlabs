@@ -33,7 +33,7 @@ body {
 			</c:when>
 			<c:otherwise>
 				<!-- Search/Filter -->
-				<form method="get" action="AdminDashboardController" 
+				<form method="get" action="AdminDashboardController"
 					class="row g-3 p-3 border rounded bg-light">
 					<!-- Date Range -->
 					<div class="col-md-3">
@@ -56,18 +56,19 @@ body {
 						</select>
 					</div>
 
-					
+
 
 					<!-- Account Number or Name -->
 					<div class="col-md-3">
-						<label for="search" class="form-label">Search Account</label> <input type="text" name="accountNumber" id="search"
-							class="form-control" placeholder="Eg. TDCB0001">
+						<label for="search" class="form-label">Search Account</label> <input
+							type="text" name="accountNumber" id="search" class="form-control"
+							placeholder="Eg. TDCB0001">
 					</div>
 
 					<!-- Button -->
 					<div class="col-md-12 text-end">
-						<button type="submit" class="btn btn-primary" name="action" value="allaccount">Show
-							Results</button>
+						<button type="submit" class="btn btn-primary" name="action"
+							value="allaccount">Show Results</button>
 						<button type="reset" class="btn btn-secondary">Reset</button>
 					</div>
 				</form>
@@ -92,7 +93,7 @@ body {
 					</thead>
 					<tbody id="userTable">
 						<c:forEach items="${allAccounts }" var="account">
-						
+
 							<tr>
 								<td>${account.name}</td>
 								<td>${account.address}</td>
@@ -103,10 +104,27 @@ body {
 								<td>${account.balance}</td>
 								<td>${account.accountStatus}</td>
 								<td>${account.createdAt}</td>
-								<td class="text-center">
-									<button class="btn btn-danger btn-sm"
-										onclick="blockAccount('ACC1001')">Block</button>
-								</td>
+								<td class="text-center"><c:choose>
+										<c:when test="${account.accountStatus eq 'Approved'}">
+											<form action="UpdateAccountStatusController" method="post">
+												<input type="hidden" name="accountNumber"
+													value="${account.accountNumber }" /> <input type="hidden"
+													name="status" value="Blocked" />
+												<button class="btn btn-danger btn-sm"
+													onclick="blockAccount("+ ${account.accountNumber }+")">Block</button>
+											</form>
+										</c:when>
+										<c:otherwise>
+											<form action="UpdateAccountStatusController" method="post">
+												<input type="hidden" name="accountNumber"
+													value="${account.accountNumber }" /> <input type="hidden"
+													name="status" value="Approved" />
+
+												<button class="btn btn-success btn-sm"
+													onclick="blockAccount("+ ${account.accountNumber }+")">Approved</button>
+											</form>
+										</c:otherwise>
+									</c:choose></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -132,8 +150,7 @@ body {
     // 🚫 Block account function
     function blockAccount(accountNumber) {
       if (confirm("Are you sure you want to block account " + accountNumber + "?")) {
-        alert("Account " + accountNumber + " has been blocked! (demo only)");
-        // 👉 In real app, send AJAX/POST request to server here
+    
       }
     }
   </script>

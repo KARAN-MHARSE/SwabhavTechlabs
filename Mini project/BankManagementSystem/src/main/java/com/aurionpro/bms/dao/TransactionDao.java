@@ -15,6 +15,7 @@ import com.aurionpro.bms.exceptions.DatabaseException;
 import com.aurionpro.bms.exceptions.InsufficientBalanceException;
 import com.aurionpro.bms.exceptions.TransactionNotFoundException;
 import com.aurionpro.bms.models.Transaction;
+import com.aurionpro.bms.properties.AccountStatus;
 import com.aurionpro.bms.properties.TransactionStatus;
 import com.aurionpro.bms.util.ResultSetMapperUtil;
 
@@ -51,13 +52,14 @@ public class TransactionDao {
 			
 			String checkPasswordQuery = "select 1 from users where password=? and\r\n"
 					+ "id = (\r\n"
-					+ "select user_id from account where account_number = ?);";
+					+ "select user_id from account where account_number = ? and account_status = ?);";
 			try(PreparedStatement statement = connection.prepareStatement(checkPasswordQuery)){
 				statement.setString(1, password);
 				statement.setString(2, transaction.getFromAccount());
+				statement.setString(3, AccountStatus.Approved.toString());
 				
 				ResultSet set = statement.executeQuery();
-				if(!set.next()) throw new RuntimeException("Invalid password");
+				if(!set.next()) throw new RuntimeException("Invalid password or account may be blocked so check first");
 			}
 			
 

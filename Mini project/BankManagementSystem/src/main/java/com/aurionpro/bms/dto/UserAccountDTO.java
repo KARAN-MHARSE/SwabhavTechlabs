@@ -18,6 +18,7 @@ public class UserAccountDTO {
 	private Long adhar;
 	private String pan;
 	private String email;
+	private boolean isActive;
 	private AccountStatus accountStatus;
 
 	private int accountId;
@@ -41,6 +42,7 @@ public class UserAccountDTO {
 		this.adhar = user.getAdharNo();
 		this.pan = user.getPanNo();
 		this.email = user.getEmail();
+		this.isActive =user.isActive();
 
 		if (account != null) {
 			this.accountId = account.getId();
@@ -59,6 +61,8 @@ public class UserAccountDTO {
 		this.mobile = user.getMobile();
 		this.adhar = user.getAdharNo();
 		this.email = user.getEmail();
+		this.isActive =user.isActive();
+
 
 		if (account != null) {
 			this.accountId = account.getId();
@@ -120,6 +124,14 @@ public class UserAccountDTO {
 
 	public void setMobile(Long mobile) {
 		this.mobile = mobile;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	public Long getAdhar() {
