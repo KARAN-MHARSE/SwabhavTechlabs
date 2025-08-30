@@ -45,6 +45,7 @@ public class TransferController extends HttpServlet {
 		String toAccount = request.getParameter("toAccount");
 		double amount = Double.parseDouble(request.getParameter("amount"));
 		String remark = request.getParameter("remark");
+		String password = request.getParameter("password");
 
 		response.setContentType("text/html");
 		PrintWriter writer = response.getWriter();
@@ -53,7 +54,7 @@ public class TransferController extends HttpServlet {
 		try {
 			Transaction transaction = new Transaction(0, fromAccount, toAccount, amount, remark,
 					TransactionStatus.Pending, null);
-			boolean isDone = transactionService.transfer(transaction);
+			boolean isDone = transactionService.transfer(transaction,password);
 			if (isDone) {
 
 				writer.println("<script type=\"text/javascript\">");

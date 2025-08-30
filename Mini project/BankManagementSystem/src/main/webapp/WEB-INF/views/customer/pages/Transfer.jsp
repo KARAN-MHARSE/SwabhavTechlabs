@@ -51,6 +51,12 @@
                     <input type="text" id="remark" name="remark" class="form-control"
                         placeholder="Write a note">
                 </div>
+                
+                 <div class="mb-3">
+                    <label for="remark" class="form-label">Enter password</label>
+                    <input type="password" id="remark" name="password" class="form-control"
+                        placeholder="Login Password">
+                </div>
 
                 <!-- Submit -->
                 <div class="d-grid">

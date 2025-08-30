@@ -43,9 +43,23 @@ public class TransactionDao {
 		}
 	}
 
-	public boolean transfer(Transaction transaction) {
+	public boolean transfer(Transaction transaction,String password) {
 
 		try {
+			
+			connection.setAutoCommit(false);
+			
+			String checkPasswordQuery = "select 1 from users where password=? and\r\n"
+					+ "id = (\r\n"
+					+ "select user_id from account where account_number = ?);";
+			try(PreparedStatement statement = connection.prepareStatement(checkPasswordQuery)){
+				statement.setString(1, password);
+				statement.setString(2, transaction.getFromAccount());
+				
+				ResultSet set = statement.executeQuery();
+				if(!set.next()) throw new RuntimeException("Invalid password");
+			}
+			
 
 			String getQuery = "select balance from account where account_number=?;";
 
@@ -89,7 +103,7 @@ public class TransactionDao {
 			return true;
 		}
 
-		catch (SQLException | InsufficientBalanceException | DatabaseException e) {
+		catch (SQLException | InsufficientBalanceException | DatabaseException  e) {
 			try {
 				connection.rollback();
 				transaction.setMessage(e.getMessage());
@@ -99,7 +113,19 @@ public class TransactionDao {
 				e1.printStackTrace();
 			}
 
-		} finally {
+		} 
+		catch (Exception e) {
+			try {
+				connection.rollback();
+				transaction.setMessage(e.getMessage());
+				insertTransaction(connection, transaction, TransactionStatus.Failed);
+				throw new RuntimeException(e.getMessage());
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		finally {
 			try {
 				connection.setAutoCommit(true);
 			} catch (SQLException e) {

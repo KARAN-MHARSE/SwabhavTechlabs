@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+<c:set var="user" value="${user }" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +18,7 @@
 		class="bg-blue-600 text-white flex items-center justify-between px-6 py-3">
 		<div class="font-bold text-xl">Karan Bank</div>
 		<div class="flex items-center space-x-4">
-			<span id="customerName">Welcome, Customer</span>
+			<span id="customerName">Welcome, <c:out value="${user.name }" /></span>
 			<form action="LogoutController" method="post">
 				<button type="submit"
 					class="bg-red-500 hover:bg-red-600 px-3 py-1 rounded">Logout</button>

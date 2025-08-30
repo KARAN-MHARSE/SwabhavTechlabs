@@ -15,11 +15,12 @@ public class TransactionService {
 		transactionDao = new TransactionDao();
 	}
 
-	public boolean transfer(Transaction transaction) {
+	public boolean transfer(Transaction transaction,String password) {
+		if(password == null || password.isEmpty()) throw new InputValidatorException("Invalid password");
 		if(transaction == null) throw new InputValidatorException("Invalid credentials");
 		if(transaction.getAmount() <=0) throw new InputValidatorException("Amount should be greatter than 0");
 		
-		return transactionDao.transfer(transaction);
+		return transactionDao.transfer(transaction,password);
 		
 	}
 
