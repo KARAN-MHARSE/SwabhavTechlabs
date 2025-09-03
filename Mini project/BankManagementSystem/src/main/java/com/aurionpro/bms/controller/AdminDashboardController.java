@@ -112,9 +112,9 @@ public class AdminDashboardController extends HttpServlet {
 			case "debit":
 				debit(request, response);
 				break;
-			case "getUserById":
+			case "getUserByAccountNumber":
 				System.out.println("getUserById");
-				getUserById(request, response);
+				getUserByAccountNumber(request, response);
 				break;
 			case "updateUserProfile":
 				updateUserProfile(request,response);
@@ -168,12 +168,10 @@ public class AdminDashboardController extends HttpServlet {
 		
 	}
 
-	private void getUserById(HttpServletRequest request, HttpServletResponse response) {
-		int userId = Integer.parseInt(request.getParameter("id"));
-		System.out.println(userId);
-		UserAccountDTO userAccount = accountService.getUserAccountDetailsByUserId(userId);
+	private void getUserByAccountNumber(HttpServletRequest request, HttpServletResponse response) {
+		String accountNumber = request.getParameter("accountNumber");
+		UserAccountDTO userAccount = accountService.getUserAccountDetailsByAccountNumber(accountNumber);
 		request.setAttribute("userAccount", userAccount);
-		System.err.println(userAccount);
 
 		try {
 			request.getRequestDispatcher("/WEB-INF/views/admin/AdminDashboard.jsp?action=updateuserprofile").forward(request, response);

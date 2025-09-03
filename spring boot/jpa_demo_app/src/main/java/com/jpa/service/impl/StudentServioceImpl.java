@@ -3,6 +3,7 @@ package com.jpa.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,25 +17,30 @@ import com.jpa.utils.EntityToDto;
 @Service
 public class StudentServioceImpl implements StudentService {
 
+	@Autowired
 	private StudentRepository studentRepository;
+	@Autowired
+	private ModelMapper mapper;
 	
-	public StudentServioceImpl(StudentRepository studentRepository) {
-		this.studentRepository = studentRepository;
-	}
+//	public StudentServioceImpl(StudentRepository studentRepository) {
+//		this.studentRepository = studentRepository;
+////		this.mapper = mapper;
+//	}
+	
 
 	@Override
 	public List<StudentResponseDTO> readAllStudents() {
 		List<Student> students =studentRepository.findAll();
 		List<StudentResponseDTO> responses = new ArrayList<>();
 		for(Student student : students) {
-			responses.add(EntityToDto.studentToStudentResponseDTO(student));
+			responses.add(mapper.map(student, StudentResponseDTO.class));
 		}
 		return responses;
 	}
 
 	@Override
 	public StudentResponseDTO addNewStudent(StudentRequestDTO student) {
-		return EntityToDto.studentToStudentResponseDTO(studentRepository.save(EntityToDto.studentRequestToStudent(student)));
+		return mapper.map(studentRepository.save(mapper.map(student, Student.class)),StudentResponseDTO.class);
 	}
 
 	@Override
@@ -43,7 +49,7 @@ public class StudentServioceImpl implements StudentService {
 		
 		List<StudentResponseDTO> responses = new ArrayList<>();
 		for(Student student : students) {
-			responses.add(EntityToDto.studentToStudentResponseDTO(student));
+			responses.add(mapper.map(student, StudentResponseDTO.class));
 		}
 		return responses;
 	}

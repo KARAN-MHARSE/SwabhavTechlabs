@@ -45,12 +45,12 @@ body {
 	<div class="card-body">
 
 		<form action="AdminDashboardController" method="post">
-			<input type="hidden" name="action" value="getUserById" />
+			<input type="hidden" name="action" value="getUserByAccountNumber" />
 
 			<div class="row mb-3">
 				<div class="col-md-6">
-					<label class="profile-label">User ID</label>
-					<input type="text" class="form-control" name="id" placeholder="Enter User ID" required>
+					<label class="profile-label">User Account Number</label>
+					<input type="text" class="form-control" name="accountNumber" placeholder="Enter User account number" required>
 				</div>
 			</div>
 
@@ -83,7 +83,7 @@ body {
 										class="form-control" name="userId"
 										value=${userAccount.userId } readonly> <label
 										class="profile-label mt-2">Full Name</label> <input
-										type="text" class="form-control" name="name"
+										type="text" minLength=5 class="form-control" name="name"
 										value="${userAccount.name}" required> <label
 										class="profile-label mt-2">Gender</label> <label
 										class="form-control" name="gender" required> <input
@@ -94,10 +94,10 @@ body {
 										value="${userAccount.mobile}" readonly>
 								</div>
 								<div class="col-md-6">
-									<label class="profile-label">Address</label> <input type="text"
+									<label class="profile-label">Address</label> <input type="text" minLength=4
 										class="form-control" name="address"
 										value="${userAccount.address}" required> <label
-										class="profile-label mt-2">Email</label> <input type="email"
+										class="profile-label mt-2">Email</label> <input type="email" minLength=7
 										class="form-control" name="email" value="${userAccount.email}">
 									<label class="profile-label mt-2" readOnly>Aadhar No</label> <input
 										type="text" class="form-control" name="adhar"
@@ -141,7 +141,7 @@ body {
 							<div class="text-center mt-4">
 								<button type="submit" class="btn btn-success px-4">Save
 									Profile</button>
-								<button type="reset" class="btn btn-secondary px-4">Reset</button>
+								
 							</div>
 
 						</form>
