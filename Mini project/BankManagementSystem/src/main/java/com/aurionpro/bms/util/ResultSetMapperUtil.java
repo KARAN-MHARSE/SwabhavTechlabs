@@ -62,6 +62,7 @@ public class ResultSetMapperUtil {
 				user.setAdharNo(result.getLong("adharNo"));
 				user.setPanNo(result.getString("panNo"));
 				user.setActive(result.getBoolean("isactive"));
+				user.setGender(Gender.valueOf(result.getString("gender")));
 				
 				
 				

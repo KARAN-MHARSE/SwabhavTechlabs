@@ -58,5 +58,9 @@ public class AccountService {
 		return accountDao.getStats();
 	}
 	
+	public boolean updateUserProfile(UserAccountDTO userAccountDTO) {
+		return accountDao.updateUserProfile(userAccountDTO);
+	}
+	
 	
 }

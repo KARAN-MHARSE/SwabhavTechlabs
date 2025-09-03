@@ -26,7 +26,7 @@
                     <label for="fromAccount" class="form-label">From Account</label>
                     <select id="fromAccount" name="fromAccount" class="form-select" required>
                         <c:forEach items="${accounts}" var="account">
-                            <option>${account.accountNumber}</option>
+                            <option value="${account.accountNumber}">${account.accountNumber}</option>
                         </c:forEach>
                     </select>
                 </div>

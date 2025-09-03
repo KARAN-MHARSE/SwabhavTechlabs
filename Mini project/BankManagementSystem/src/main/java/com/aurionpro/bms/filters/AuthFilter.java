@@ -20,7 +20,6 @@ public class AuthFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		System.out.println("Hitting");
 		
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
@@ -32,7 +31,6 @@ public class AuthFilter implements Filter {
 		}
 		
 		User user = (User) session.getAttribute("user");
-		System.out.println(user);
 		System.out.println(req.getContextPath());
 		if(user==null) {
 			res.sendRedirect(req.getContextPath()+"/LoginController");

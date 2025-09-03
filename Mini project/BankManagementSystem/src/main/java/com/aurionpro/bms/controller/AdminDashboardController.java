@@ -58,7 +58,6 @@ public class AdminDashboardController extends HttpServlet {
 		this.accountService = new AccountService(accountDao);
 	}
 
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
@@ -101,6 +100,7 @@ public class AdminDashboardController extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			String action = request.getParameter("action");
+			System.out.println(action);
 
 			switch (action) {
 			case "createAccount":
@@ -112,13 +112,77 @@ public class AdminDashboardController extends HttpServlet {
 			case "debit":
 				debit(request, response);
 				break;
+			case "getUserById":
+				System.out.println("getUserById");
+				getUserById(request, response);
+				break;
+			case "updateUserProfile":
+				updateUserProfile(request,response);
+				return;
 			default:
 				throw new IllegalArgumentException("Unexpected value: " + action);
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			request.setAttribute("errorMessage", "Something went wrong: " + e.getMessage());
 			request.getRequestDispatcher("/WEB-INF/views/Error.jsp").forward(request, response);
+		}
+
+	}
+
+	private void updateUserProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			int userId = Integer.parseInt(request.getParameter("userId"));
+			String accountNumber = request.getParameter("accountNumber");
+			String address = request.getParameter("address");
+			String name = request.getParameter("name");
+			AccountStatus accountStatus = AccountStatus.valueOf(request.getParameter("accountStatus"));
+			
+			UserAccountDTO userAccountDTO = new UserAccountDTO();
+			userAccountDTO.setUserId(userId);
+			userAccountDTO.setAccountNumber(accountNumber);
+			userAccountDTO.setName(name);
+			userAccountDTO.setAddress(address);
+			userAccountDTO.setAccountStatus(accountStatus);
+			
+			boolean isUpdated = accountService.updateUserProfile(userAccountDTO);
+			PrintWriter writer;
+			if(isUpdated) {
+				writer = response.getWriter();
+				writer.println("<script type=\"text/javascript\">");
+				writer.println("alert('Profile successfully! updated');");
+				writer.println("window.location.href='" + request.getHeader("Referer") + "';");
+				writer.println("</script>");
+			}else {
+				writer = response.getWriter();
+				writer.println("<script type=\"text/javascript\">");
+				writer.println("alert('Profile updation failed');");
+				writer.println("window.location.href='" + request.getHeader("Referer") + "';");
+				writer.println("</script>");
+
+			}
+		}catch (Exception e) {
+			request.setAttribute("errorMessage", e.getMessage());
+			request.getRequestDispatcher("/WEB-INF/views/Error.jsp").forward(request, response);
+
+		}
+		
+	}
+
+	private void getUserById(HttpServletRequest request, HttpServletResponse response) {
+		int userId = Integer.parseInt(request.getParameter("id"));
+		System.out.println(userId);
+		UserAccountDTO userAccount = accountService.getUserAccountDetailsByUserId(userId);
+		request.setAttribute("userAccount", userAccount);
+		System.err.println(userAccount);
+
+		try {
+			request.getRequestDispatcher("/WEB-INF/views/admin/AdminDashboard.jsp?action=updateuserprofile").forward(request, response);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}
@@ -188,8 +252,7 @@ public class AdminDashboardController extends HttpServlet {
 		System.out.println(name);
 		String address = request.getParameter("address");
 
-		String genderParam = request.getParameter("gender");
-		System.out.println(genderParam);
+		String genderParam= request.getParameter("gender");
 		Gender gender = Gender.Male;
 		if (genderParam != null && !genderParam.isEmpty()) {
 			gender = Gender.valueOf(genderParam);
@@ -230,9 +293,11 @@ public class AdminDashboardController extends HttpServlet {
 
 		accountService.createNewUserAccount(userAccountDTO);
 
-		response.getWriter().print("mobile" + mobile);
-		response.getWriter().print("gender" + gender);
-
+		PrintWriter writer= response.getWriter();
+		writer.println("<script type=\"text/javascript\">");
+		writer.println("alert('Account created successfully!');");
+		writer.println("window.location.href='" + request.getHeader("Referer") + "';");
+		writer.println("</script>");
 	}
 
 	private void showAllAccounts(HttpServletRequest request, HttpServletResponse response) {

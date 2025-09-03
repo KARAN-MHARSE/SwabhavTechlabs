@@ -151,7 +151,7 @@ public class AccountDao {
 	public List<UserAccountDTO> getAllUserAccounts() {
 		Map<Integer, UserAccountDTO> map = new HashMap<>();
 
-		String sql = "select u.id as userId,u.name as userName,u.address,u.email,u.mobile,u.adhar_no as adharNo,u.pan_no as panNo,u.role,u.isactive,a.id as accountId,"
+		String sql = "select u.id as userId,u.name as userName,u.gender,u.address,u.email,u.mobile,u.adhar_no as adharNo,u.pan_no as panNo,u.role,u.isactive,a.id as accountId,"
 				+ "	a.account_number,a.type as accountType,a.balance,a.account_status,a.created_at as accountCreatedAt,d.doc_file,d.doc_name,d.doc_type	"
 				+ "from " + "users u " + "join account a on u.id = a.user_id "
 				+ "left join document d on u.id = d.user_id ";
@@ -173,8 +173,8 @@ public class AccountDao {
 		try {
 			connection.setAutoCommit(false);
 
-			String sql = "insert into users(name,address,email,mobile,adhar_no,pan_no,password)"
-					+ "values (?,?,?,?,?,?,?);";
+			String sql = "insert into users(name,address,email,mobile,adhar_no,pan_no,password,gender)"
+					+ "values (?,?,?,?,?,?,?,?);";
 
 //			Create user account first
 			try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -185,6 +185,7 @@ public class AccountDao {
 				statement.setLong(5, userAccountDTO.getAdhar());
 				statement.setString(6, userAccountDTO.getPan());
 				statement.setString(7, userAccountDTO.getName());
+				statement.setString(8,userAccountDTO.getGender().toString());
 
 				int updatedRows = statement.executeUpdate();
 				if (updatedRows <= 0)
@@ -252,7 +253,7 @@ public class AccountDao {
 	public List<UserAccountDTO> getAllPendingAccounts() {
 		Map<Integer, UserAccountDTO> map = new HashMap<>();
 
-		String sql = "select u.id as userId,u.name as userName,u.address,u.email,u.mobile,u.adhar_no as adharNo,u.pan_no as panNo,u.role,u.isactive,a.id as accountId,"
+		String sql = "select u.id as userId,u.name as userName,u.gender,u.address,u.email,u.mobile,u.adhar_no as adharNo,u.pan_no as panNo,u.role,u.isactive,a.id as accountId,"
 				+ "	a.account_number,a.type as accountType,a.balance,a.account_status,a.created_at as accountCreatedAt,d.doc_file,d.doc_name,d.doc_type	"
 				+ "from " + "users u " + "join account a on u.id = a.user_id "
 				+ "left join document d on u.id = d.user_id "
@@ -272,7 +273,7 @@ public class AccountDao {
 
 	public UserAccountDTO getUserAccountDetailsByUserId(int userId) {
 		String sql = "select \r\n"
-				+ "	u.id as userId,u.name as userName,u.address,u.email,u.mobile,u.adhar_no as adharNo,u.pan_no as panNo,u.role,u.isactive,\r\n"
+				+ "	u.id as userId,u.name as userName,u.gender,u.address,u.email,u.mobile,u.adhar_no as adharNo,u.pan_no as panNo,u.role,u.isactive,\r\n"
 				+ "	a.id as accountId,a.account_number,a.type as accountType,a.balance,a.account_status,a.created_at as accountCreatedAt,\r\n"
 				+ "	d.doc_file,d.doc_name,d.doc_type\r\n" + "from \r\n" + "users u \r\n"
 				+ "join account a on u.id = a.user_id \r\n" + "left join document d on u.id = d.user_id\r\n"
@@ -296,7 +297,7 @@ public class AccountDao {
 
 	public UserAccountDTO getUserAccountDetailsByAccountNumber(String accountNumber) {
 		String sql = "select \r\n"
-				+ "	u.id as userId,u.name as userName,u.address,u.email,u.mobile,u.adhar_no as adharNo,u.pan_no as panNo,u.role,u.isactive,\r\n"
+				+ "	u.id as userId,u.name as userName,u.gender,u.address,u.email,u.mobile,u.adhar_no as adharNo,u.pan_no as panNo,u.role,u.isactive,\r\n"
 				+ "	a.id as accountId,a.account_number,a.type as accountType,a.balance,a.account_status,a.created_at as accountCreatedAt,\r\n"
 				+ "	d.doc_file,d.doc_name,d.doc_type\r\n" + "from \r\n" + "users u \r\n"
 				+ "join account a on u.id = a.user_id \r\n" + "left join document d on u.id = d.user_id\r\n"
@@ -354,5 +355,33 @@ public class AccountDao {
 			throw new DatabaseException("Something went wrong while block the account");
 		}
 	}
+	
+	public boolean updateUserProfile(UserAccountDTO userAccountDTO) {
+	    String sql1 = "update users set name=?, address=? where id=?";
+	    String sql2 = "update account set account_status=? where account_number=?";
+
+	    try (PreparedStatement stmt1 = connection.prepareStatement(sql1)) {
+	        stmt1.setString(1, userAccountDTO.getName());
+	        stmt1.setString(2, userAccountDTO.getAddress());
+	        stmt1.setInt(3, userAccountDTO.getUserId());
+	        stmt1.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false; 
+	    }
+
+	    try (PreparedStatement stmt2 = connection.prepareStatement(sql2)) {
+	        stmt2.setString(1, userAccountDTO.getAccountStatus().toString());
+	        stmt2.setString(2, userAccountDTO.getAccountNumber());
+	        stmt2.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+
+	    return true; 
+	}
+
+
 
 }

@@ -85,10 +85,29 @@ body {
            <c:forEach  items="${transactions }" var="transaction">
             <tr>
                 <td>${transaction.transactionId}</td>
-                <td>${transaction.senderName}</td>
+                <c:choose>
+                <c:when test="${transaction.fromAccountNumber eq 'TDCB00000' }">
+                	 <td>Self</td>
+                	<td>Bank Account</td>
+                </c:when>
+                <c:otherwise>
+                 <td>${transaction.senderName}</td>
                 <td>${transaction.fromAccountNumber}</td>
-                <td>${transaction.receiverName}</td>
+                </c:otherwise>
+                </c:choose>
+                
+                <c:choose>
+               <c:when test="${transaction.toAccountNumber eq 'TDCB00000' }">
+               <td>Self</td>
+                <td>Bank account</td>
+               </c:when> 
+               <c:otherwise>
+               <td>${transaction.receiverName}</td>
                 <td>${transaction.toAccountNumber}</td>
+               </c:otherwise>
+                </c:choose>
+               
+                
                 <td>${transaction.amount }</td>
                 <td>${transaction.message}</td>
                 <c:choose>

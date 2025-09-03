@@ -62,6 +62,16 @@ public class TransactionDao {
 				if(!set.next()) throw new RuntimeException("Invalid password or account may be blocked so check first");
 			}
 			
+			String senderActiveQuery = "select 1 from\r\n"
+					+ "users u \r\n"
+					+ "join account a on u.id = a.user_id\r\n"
+					+ "where a.account_number = ? and u.isActive = true and a.account_status='Approved';";
+			try(PreparedStatement statement = connection.prepareStatement(senderActiveQuery)){
+				statement.setString(1, transaction.getToAccount());
+				ResultSet result = statement.executeQuery();
+				if(!result.next()) throw new RuntimeException("Receiver id is blocked or not active");
+			}
+			
 
 			String getQuery = "select balance from account where account_number=?;";
 

@@ -52,8 +52,8 @@ public class AuthenticationDao {
 
 	
 	public User register(User user) {
-		String sql = "insert into users(name,address,email,mobile,adhar_no,password)"
-				+ "values (?,?,?,?,?,?);";
+		String sql = "insert into users(name,address,email,mobile,adhar_no,password,gender)"
+				+ "values (?,?,?,?,?,?,?);";
 		
 		try(PreparedStatement statement = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS)){
 			statement.setString(1, user.getName());
@@ -62,6 +62,7 @@ public class AuthenticationDao {
 			statement.setLong(4, user.getMobile());
 			statement.setLong(5, user.getAdharNo());
 			statement.setString(6, user.getPassword());
+			statement.setString(6, user.getGender().toString());
 			
 			int insertedRows = statement.executeUpdate();
 			if(insertedRows >0) {
