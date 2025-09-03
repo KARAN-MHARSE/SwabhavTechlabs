@@ -30,11 +30,11 @@
         <form action="LoginController" method="post">
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                <input minLength=10 type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                <input minLength=8 type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
             </div>
             <div class="d-grid">
                 <button type="submit" class="btn btn-primary">Login</button>
