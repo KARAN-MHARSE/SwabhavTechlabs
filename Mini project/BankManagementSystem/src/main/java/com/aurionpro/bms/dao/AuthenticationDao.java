@@ -79,4 +79,29 @@ public class AuthenticationDao {
 		}
 		return  null;
 	}
+
+	public boolean changePassword(int userId,String oldPassword, String newPassword) throws SQLException {
+		String getUserQuery = "select id,password from users where id = ?";
+		String dbOldPassword;
+		try(PreparedStatement statement = connection.prepareStatement(getUserQuery)){
+			statement.setInt(1, userId);
+			
+			ResultSet set = statement.executeQuery();
+			if(!set.next()) throw new UserNotFoundException();
+			dbOldPassword = set.getString("password");
+		}
+		
+		if(!dbOldPassword.equals(oldPassword)) throw new InputValidatorException("Old password is not matched");
+		
+		String updatePassword = "update users set password=? where id=?;";
+		try(PreparedStatement statement = connection.prepareStatement(updatePassword)){
+			statement.setString(1, newPassword);
+			statement.setInt(2, userId);
+			
+			int updatedRows = statement.executeUpdate();
+			if(updatedRows <=0) return false;
+		}
+		
+		return true;
+	}
 }

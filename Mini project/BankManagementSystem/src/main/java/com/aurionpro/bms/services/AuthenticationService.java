@@ -1,5 +1,6 @@
 package com.aurionpro.bms.services;
 
+import java.sql.SQLException;
 import java.util.Optional;
 
 import com.aurionpro.bms.dao.AuthenticationDao;
@@ -42,6 +43,15 @@ public class AuthenticationService {
 		}
 		
 		return authenticationDao.register(user);
+	}
+
+	public boolean changePassword(int userId,String oldPassword, String newPassword) throws SQLException {
+		if(oldPassword==null || oldPassword.isBlank() || newPassword==null || newPassword.isBlank()) {
+			throw new InputValidatorException("Enter valid credentials");
+		}
+		
+		return authenticationDao.changePassword(userId,oldPassword,newPassword);
+		
 	}
 
 	

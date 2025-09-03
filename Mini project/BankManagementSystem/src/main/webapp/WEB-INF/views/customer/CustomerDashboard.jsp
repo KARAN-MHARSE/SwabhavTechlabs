@@ -42,6 +42,9 @@
 			<a
 				href=<%=request.getContextPath() + "/CustomerDashboardController?action=profile"%>
 				class="block px-4 py-2 rounded hover:bg-green-200">Profile</a>
+				<a
+				href=<%=request.getContextPath() + "/CustomerDashboardController?action=changepassword"%>
+				class="block px-4 py-2 rounded hover:bg-green-200">Change Password</a>
 		</aside>
 		<c:choose>
 			<c:when test="${action eq 'transactions' }">
@@ -55,6 +58,10 @@
 							<jsp:include page="/WEB-INF/views/customer/pages/Transfer.jsp"></jsp:include>
 			
 			</c:when>
+			<c:when test="${action eq 'changepassword'}">
+							<jsp:include page="/WEB-INF/views/ChangePassword.jsp"></jsp:include>
+			</c:when>
+			
 			<c:otherwise>
 				<jsp:include page="/WEB-INF/views/customer/pages/Home.jsp"></jsp:include>
 
